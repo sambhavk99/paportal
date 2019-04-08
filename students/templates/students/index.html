@@ -1,0 +1,55 @@
+{% extends 'students/base.html' %}
+{% load static %}
+
+{% block search %}
+<form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search using Area of Interest" name="search_box" id="search_box" aria-label="Search">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+</ul>
+{% endblock %}
+
+{% block lcol %}
+
+<div class="col-sm-4">
+{% if not user.student.choices_filled %}
+    <h2>Professor's List</h2>
+{% if Professor_list %}
+
+    <ul>
+    {% for professor in Professor_list %}
+        {% if user.is_authenticated and professor not in Filled_Choices %}
+        <li><div class="d-inline bg-info"><a href="{% url 'students:faculty_detail' professor.pid %}">{{ professor.name }}</a>
+        </div>{% if not user.student.choices_filled and user.student.leader %}<div class="d-inline-block"><a href="{% url 'students:add' professor.pid%}" class="url">Add</a></div></li>{% endif %}
+        {% endif %}
+    {% endfor %}
+    </ul>
+
+{% else %}
+    <p>No Professors are available</p>
+{% endif %}
+{% else %}
+<p>You have already confirmed your choices, See your confirmed choices <a href="{% url 'students:confirm_choice' %}">here</a>! </p>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block midcol %}
+<div class="col-sm-4">
+{% if not user.student.choices_filled and user.student.leader %}
+<h2>Choices Filled</h2>
+{% if choices_filled %}
+
+    <ul>
+        {% for choice in choices_filled %}
+        <li><div class="d-inline bg-primary"><a href="{% url 'students:faculty_detail' choice.professor.pid %}">
+            {{ choice.professor }}</a></div><div class="d-inline-block"><a href="{% url 'students:remove' choice.professor.pid%}">Remove</a></div></li>
+        {% endfor %}
+    </ul>
+        <button type="button" style="float: right"><a href="{% url 'students:confirm_choice' %}">Freeze</a></button>
+{% else %}
+<p> No Choice Filled!!!</p>
+{% endif %}
+{% endif %}
+    </div>
+    {% endblock %}

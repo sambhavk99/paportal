@@ -1,0 +1,48 @@
+{% extends 'students/base.html' %}
+{% block messages %}
+{% endblock %}
+{% block midcol %}
+    <div class="col-sm-4">
+{% if not user.is_authenticated %}
+  <p>You are not logged in</p>
+  <a href="{% url 'students:login' %}">login</a>
+    {% else %}
+    <h2>Student's Profile</h2>
+    <p class="n">Name          : {{ user.student.Name }}</p>
+    <p>Reg. No.      : {{ user.student.reg_no }}</p>
+    <p>Branch        : {{ user.student.Branch }}</p>
+    <P>CPI           : {{ user.student.CPI }}</P>
+    <p>Date of Birth : {{ user.student.DOB }}</p>
+    <p>Category      : {{ user.student.Category }}</p>
+    <p>Semester      : {{ user.student.Semester }}</p>
+    {% if user.student.group %}
+    <p>Group : {{ user.student.group }}</p>
+        {% endif %}
+{% endif %}
+    </div>
+{% endblock %}
+{% block rcol %}
+{% if user.student.leader %}
+    <div class="col-sm-4">
+    <h2>Available Students</h2>
+{% if All_Students %}
+<ul>
+    {% for student in All_Students %}
+    {% if not student.group and not student.leader and student.reg_no != user and student not in already_sent %}
+    <li>{{ student.Name }}{% if superuser.userdirection.send_request and user.student.leader %}<a href="{% url 'students:send_request' student.id %}" class="d-inline-block">Send Request</a>{% endif %} </li>
+    {% endif %}
+{% endfor %}
+</ul>
+    {% else %}
+    No Available Students!
+    {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}

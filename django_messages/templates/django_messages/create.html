@@ -1,0 +1,18 @@
+{% extends 'students/home.html' %}
+{% block rcol %}
+    <div class="rcol">
+    {% if user.is_authenticated %}
+<h2>New Message</h2>
+<form method="post" novalidate>
+  {% csrf_token %}
+  <table border="1">
+    {{ form }}
+  </table>
+  <button type="submit">Send</button>
+</form>
+    {% else %}
+    <p>You are not logged in!<a href="{% url 'students:login' %}">Login here</a></p>
+    {% endif %}
+    </div>
+{% endblock %}
+

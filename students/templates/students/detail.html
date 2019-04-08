@@ -1,0 +1,11 @@
+{% extends 'students/index.html' %}
+{% block rcol %}
+<div class="col-sm-4">
+<h2 style="text-underline: white crimson">Mentor Details:</h2>
+<p>Name: {{ professor.name }}</p>
+<p>Designation: {{ professor.desg }}</p>
+<p>Department: {{ professor.dept }}</p>
+<p>Areas of Interest: {{ professor.aoi }}</p>
+<p>No. of groups: {{ professor.group }}</p>
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'students/base.html' %}
+{% block messages %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}
+{% if superuser.userdirection.student_filling %}
+{% block rcol %}
+    <div class="col-sm-4">
+{% if Students_List %}
+    <h2>Students's List</h2>
+    <ul>
+    {% for student in Students_List %}
+        <li><div class="list-group-item bg-dark"><a href="#" class="nav-link">{{ student.Name }}</a>
+            <a href="{% url 'students:edit_student' student.id %}" class="nav-link">Edit Info</a> </div></li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    No information uploaded yet!
+{% endif %}
+    <li class="nav-item">
+        <a href="{% url 'students:add_student' %}" class="nav-pills">Add Students</a></li>
+    </div>
+{% endblock %}
+{% endif %}
+
+{% if superuser.userdirection.mentor_filling %}
+{% block midcol %}
+    <div class="col-sm-4">
+
+{% if Professors_List %}
+    <h2>Mentor's List</h2>
+    <ul>
+    {% for professor in Professors_List %}
+        <li><button type="button" class="btn btn-lg btn-info" data-toggle="modal" data-target="#myModal" style="margin-bottom: 5px">{{ professor.name }}</button>
+        <a href="{% url 'students:edit_mentor' professor.pid %}" class="compact">Edit info</a></li>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1  class="modal-title">{{ professor.name }}</h1>
+        </div>
+        <div class="modal-body">
+<h3>Designation: {{ professor.desg }}</h3>
+<h3>Department: {{ professor.dept }}</h3>
+<h3>Areas of Interest: {{ professor.aoi }}</h3>
+<h3>No. of groups: {{ professor.group }}</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    {% endfor %}
+    </ul>
+    {% else %}
+    No information uploaded yet!
+{% endif %}
+    <li class="nav-item">
+        <a href="{% url 'students:add_mentor' %}" class="nav-pills">Add Professors</a></li>
+    </div>
+{% endblock %}
+{% endif %}
+

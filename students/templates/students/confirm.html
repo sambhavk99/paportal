@@ -1,0 +1,13 @@
+{% extends 'students/index.html' %}
+{% block rcol %}
+    <div class="col-sm-4">
+<h2>Confirmed Choices</h2>
+{% if Choices_filled %}
+    <ul>
+{% for choice in Choices_filled %}
+ <li><a href="{% url 'students:faculty_detail' choice.professor.pid %}">{{ choice.professor.name }}</a> </li>
+    {% endfor %}
+    {% endif %}
+    </ul>
+    </div>
+{% endblock %}

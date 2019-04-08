@@ -1,0 +1,18 @@
+{% extends 'students/home.html' %}
+{% block rcol %}
+    <div class="col-sm-4">
+<h2>Sent</h2>
+{% if sent %}
+
+{% for request in sent %}
+<ul>
+    <li>{{ request.receiver.Name }}<br>
+    <a href="{% url 'students:cancel' request.rid%}">Cancel</a>
+    </li>
+</ul>
+{% endfor %}
+    {% else %}
+    No pending sent requests.
+{% endif %}
+</div>
+{% endblock %}

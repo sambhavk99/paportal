@@ -1,0 +1,23 @@
+{% extends 'students/base.html' %}
+{% block rcol %}
+
+<div class="col-sm-4">
+<h2>Student's Information</h2>
+  <form method="post">
+    {% csrf_token %}
+      <table border="1">
+    {{ form }}
+      </table>
+    <button type="submit">Save</button>
+  </form>
+    </div>
+{% endblock %}
+{% block messages %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

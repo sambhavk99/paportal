@@ -1,0 +1,14 @@
+{% extends 'students/base.html' %}
+{% block rcol %}
+
+<div class="rcol">
+<h2>Mentor Information</h2>
+  <form method="post">
+    {% csrf_token %}
+      <table border="1">
+    {{ form }}
+      </table>
+    <button type="submit">Save</button>
+  </form>
+    </div>
+{% endblock %}
