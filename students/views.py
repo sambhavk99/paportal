@@ -74,6 +74,11 @@ def index(request):
     notification_list = Notification.objects.order_by('-pub_date')
     grp = request.user.groups.all()
     avlbl_stu = Student.objects.filter(group__isnull=True, leader=False, Branch=request.user.student.Branch)
+    if request.method == 'GET':  # If the form is submitted
+        search_query = request.GET.get('search_box')
+        if search_query:
+            avlbl_stu = Student.objects.filter(Branch=request.user.student.Branch, Name__contains=search_query, leader=False,
+                                               group__isnull=True)
     try:
         dep = Department.objects.get(dep_name=request.user.student.Branch)
         num = dep.num

@@ -10,6 +10,14 @@
 {% endif %}
     </div>
 {% endblock %}
+{% block search %}
+    {% if user.student.leader and not superuser.userdirection.result_declared and not user.student.choices_filled and count < max %}
+<form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Student by name" name="search_box" id="search_box" aria-label="Search">
+      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    {% endif %}
+{% endblock %}
 {% block lcol %}
     <div class="col-sm-4 bg-light border border-dark rounded" style="color: black">
 {% if not user.is_authenticated %}
