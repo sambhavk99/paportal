@@ -37,7 +37,7 @@ All the required basic as well as advanced features of the problem statement has
 
 2. As and when notified:
 
-	1. Departments will be able to login and add the information about their Students, special care should be taken to fill the registration number of students as once added, it cannot be changed! Added students will be able to login with their Registration number and the default password "qwertyuiop" (without quotes).
+	1. Departments will be able to login and add the information about their Students, special care should be taken to fill the registration number of students as once added, it cannot be changed! Added students will be able to login with their Registration number and the password given.
 	2. Departments will be able to login and add the information about their Mentors.
 	3. Departments shall take care that the total number of groups to be allotted to all the mentors matches the (total number of students taking part in project allotment in the department)/(students in each group). if they don't want to fix the number of students in each group, they shall inform the site admin beforehand.
 
