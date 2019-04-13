@@ -1,0 +1,244 @@
+body{
+    background: white;
+}
+
+.img{
+    max-height: 50px;
+    max-width: 40px;
+}
+.subhead{
+    background-color: #b8daff;
+    border-bottom: black double;
+    border-left: black double;
+    color: #0b2e13;
+    display: block;
+    text-decoration: underline;
+    font-style: italic;
+    height: 50px;
+    text-align: center;
+}
+.header {
+        #background-image: url("images/mnnit.gif");
+        height: 200px;
+  padding: 30px;
+  text-align: center;
+  font-size: 25px;
+
+border-bottom: black outset;
+}
+    /* Style the top navigation bar */
+.topnav {
+    height: 30px;
+    font-size: 15px;
+  overflow: hidden;
+  #background-color: black;
+    border-bottom: black double;
+    padding-bottom: 4%;
+}
+
+/* Style the topnav links */
+.topnav a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+    padding: 6px;
+  text-decoration: darkblue;
+    background: black;
+}
+
+/* Change color on hover */
+.topnav a:hover {
+  background-color: grey;
+  color: black;
+}
+
+.topnav a:visited{
+    background: blueviolet;
+}
+
+    .lcol{
+        #background-color: indianred;
+        float: left;
+        padding: 10px;
+        #border: solid white;
+        max-width: 28%;
+        width: 30%;
+        text-align: center;
+        height: 75%;
+        border-right: black outset;
+
+
+    }
+
+    .login{
+        #background-color: white;
+        float: right;
+        padding: 10px;
+        width: 25%;
+        margin: 2px;
+        #border: white;
+    }
+    .user{
+        float: top;
+    }
+    .prof{
+        text-align: center;
+        float: left;
+        width: 40%;
+        #background-color: indianred;
+        #border: solid white;
+        padding: 10px;
+        max-height: 100vh;
+        height: 75vh;
+    }
+   p.detail{
+  display: none;
+  background-color: lemonchiffon;
+  padding: 20px;
+}
+
+div.notificationdetail:hover p.detail {
+  display: block;
+}
+
+.midcol{
+   #background: gray;
+    #border: solid white;
+    float: left;
+    width: 40%;
+    margin: 2px;
+    padding-left: 4%;
+    padding-top: 1%;
+    border-right: black outset;
+    #max-height: 100vh;
+        height: 75%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.box {
+  float: left;
+  width: 33.33%;
+  padding: 50px;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+
+li a, .dropbtn {
+  display: inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+  background-color: red;
+}
+
+
+li.dropdown {
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.rec_request a {
+    display: compact;
+    padding: 6px 8px;
+    color: black;
+    background: dodgerblue;
+}
+    .rcol{
+        float: left;
+        padding: 10px;
+        width: 30%;
+
+        height: 75%;
+        overflow-y: scroll;
+
+    }
+    .footer {
+        border: black outset;
+        float: bottom;
+  padding: 20px;
+  text-align: center;
+  #background: #ddd;
+  margin-top: 20px;
+        width: 100%;
+}
+.modal-backdrop {
+  z-index: -1;
+}
+
+.new {
+  background-color: red;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 20s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
+
+/* Standard syntax */
+@keyframes example {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
+
+.bar{
+    width: 200px;
+    border: black solid;
+    margin-bottom: 5px;
+}
+
+.tab-field{
+    width: 100px;
+    background: #b8daff;
+    margin: 5px;
+    border-left: black solid;
+}
+
+.tab-deet{
+    width: 220px;
+    background-color: #c82333;
+    margin: 5px;
+}

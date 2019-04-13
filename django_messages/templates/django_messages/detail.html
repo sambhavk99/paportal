@@ -1,0 +1,12 @@
+{% extends 'students/home.html' %}
+{% block rcol %}
+
+    <div class="rcol">
+    <h2>Message details</h2>
+    <p>From: {{ message.sender.Name }}</p>
+    <p>To: {{ message.receiver.Name }}</p>
+<p>Message: {{ message.content }}</p>
+<p>Sent at: {{ message.created_at }}</p>
+    <p>Viewed: {{ message.seen }}</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'students/index.html' %}
+{% block rcol %}
+<div class="col-sm-4 bg-light border border-dark rounded">
+<h2 class="subhead">Mentor Details:</h2>
+<p>Name: {{ professor.name }}</p>
+<p>Designation: {{ professor.desg }}</p>
+    <p>Qualification: {{ professor.qual }}</p>
+<p>Department: {{ professor.dept }}</p>
+<p>Area of Interest: {{ professor.aoi }}</p>
+</div>
+{% endblock %}
+

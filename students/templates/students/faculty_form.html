@@ -1,0 +1,14 @@
+{% extends 'students/dep_home.html' %}
+{% block rcol %}
+
+<div class="col-sm-4 border border-dark bg-light rounded">
+<h2 class="sticky-top subhead">Mentor Information</h2>
+  <form method="post">
+    {% csrf_token %}
+      <table border="1">
+    {{ form }}
+      </table>
+    <button type="submit">Save</button>
+  </form>
+    </div>
+{% endblock %}

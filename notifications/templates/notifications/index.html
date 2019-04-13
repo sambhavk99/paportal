@@ -1,0 +1,20 @@
+{% extends 'students/base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'students/style.css' %}">
+
+
+{% block notification %}
+    <h2 style="color: blueviolet" >Notifications</h2>
+{% if Notification_list %}
+    <ul>
+    {% for notification in Notification_list %}
+        <div class="notificationdetail">
+        <li>{{notification.heading }} {{ notification.pub_date }}</li>
+        <p class="detail">{{ notification.detail }}</p>
+        </div>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No notifications available</p>
+{% endif %}
+{% endblock %}

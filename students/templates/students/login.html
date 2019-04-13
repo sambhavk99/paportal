@@ -1,0 +1,12 @@
+{% extends 'students/base.html' %}
+{% block rcol %}
+    <div class="col-sm-4">
+<h2>Student's Login</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Login</button>
+  </form>
+    <a href="{% url 'students:password_reset' %}">Forgot Password?</a>
+    </div>
+{% endblock %}

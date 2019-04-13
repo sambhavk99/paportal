@@ -1,0 +1,19 @@
+
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% if members %}
+<ul>
+    {% for mem in members %}
+        {% if mem != user %}
+    <li>{{ mem.student.Name }}<a href="{% url 'django_messages:compose' mem.student.id %}">Send Message</a></li>
+        {% endif %}
+    {% endfor %}
+</ul>
+{% else %}
+No members in group yet!!!
+{% endif %}

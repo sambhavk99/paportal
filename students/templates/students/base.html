@@ -1,0 +1,223 @@
+{% load static %}
+<link rel="stylesheet" type="text/css"  href="{% static 'django_messages/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/css/bootstrap.css' %}">
+<link rel="icon" href="{% static 'students/images/logo.png' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Project allotment portal</title>
+</head>
+
+<body>
+{% block msg %}
+    <div class="a bg-light">
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    </div>
+{% endblock %}
+<div class="jumbotron text-center" style="margin-bottom:0">
+<h1 align="center">Project Allotment Portal</h1>
+<h3 align="center">Motilal Nehru National Institute Of Technology Allahabad</h3>
+</div>
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark sticky-top">
+<ul class="navbar nav">
+{% if not user.student and user.is_authenticated and user != superuser %}
+<li class="nav-item"><a href="{% url 'students:dep_home' %}" class="nav-link">Home</a></li>
+{% else %}
+<li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+{% endif %}
+<li class="nav-item"><a href="{% url 'instructions' %}" class="nav-link">Instructions</a></li>
+{% if user.is_authenticated and user.student and superuser.userdirection.choice_filling %}
+    <li class="nav-item"><a href="{% url 'students:faculty_index' %}" class="nav-link">{% if superuser.userdirection.choice_filling and user.student.leader %}Fill Choices{% elif superuser.userdirection.choice_filling %}Mentor's List{% endif %}</a></li>
+{% endif %}
+{% if user.is_uthenticated and user is superuser  %}
+    <li class="nav-item"><a href="/admin" class="nav-link">Admin</a></li>
+{% endif %}
+{% if not user.is_authenticated and superuser.userdirection.dep_login %}
+    <li class="nav-item"><a href="#dlogin" class="nav-link" data-toggle="modal">Department's Login</a></li>
+    <div class="modal fade" id="dlogin" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2  class="modal-title">Department Login</h2>
+        </div>
+        <div class="modal-body">
+            <form method="post" action="{% url 'students:dep_login' %}">
+          {% csrf_token %}
+          {# A more "HTML" way of creating the login form#}
+          <label for="username">Username:</label>
+                <input type="text" name="username" placeholder="Username" class="form-text"><br>
+<label for="password">Password:  </label>
+          <input type="password" name="password" placeholder="Password" class="form-text"><br>
+<input type="submit" name="" value="Login" class="btn btn-primary">
+</form>
+    <a href="{% url 'students:password_reset' %}">Forgot Password?</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endif %}
+{% if not user.is_authenticated and superuser.userdirection.student_login %}
+    <li class="nav-item"><a href="#login" class="nav-link" data-toggle="modal">Student's Login</a></li>
+    <div class="modal fade" id="login" role="dialog" data-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2  class="modal-title">Student Login</h2>
+        </div>
+        <div class="modal-body">
+            <form method="post">
+    {% csrf_token %}
+    {{ Slform.as_p }}
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+    <a href="{% url 'students:password_reset' %}">Forgot Password?</a>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+    {% endif %}
+{% if user.is_authenticated and user.student %}
+    <li class="nav-item"><a href="{% url 'students:student_home' %}" class="nav-link">Profile</a></li>
+    {% if superuser.userdirection.Group_creation and not user.student.group and user.student.leader %}
+    <li class="nav-item"><a href="{% url 'students:group_creation' %}" class="nav-link">Create Group</a></li>
+        {% endif %}
+    {% if user.student.group %}
+<li class="nav-item">
+    <a href="{% url 'django_messages:chats' %}" class="nav-link">Group Chat</a>
+  </li>
+        {% endif %}
+    {% if superuser.userdirection.send_request and not user.student.choices_filled and not user.student.group %}
+<li class="nav-item dropdown">
+    <a href="javascript:void(0)" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">Requests {% if request_count %}<div class="span badge badge-danger">{{ request_count }}</div>{% endif %}</a>
+    <div class="dropdown-content">
+{% if user.student.leader and user.student.group %}
+      <a href="{% url 'students:sent' %}" class="dropdown-item">Sent Requests</a>
+    {% elif not user.student.leader and not user.student.group %}
+    <a href="{% url 'students:received' %}" class="dropdown-item">Received Requests</a>
+    {% endif %}
+    </div>
+  </li>
+        {% endif %}
+{% endif %}
+{% if user.department %}
+   {% if superuser.userdirection.student_filling %}<li class="nav-item"><a href="{% url 'students:add_student' %}" class="nav-link">Add Students</a></li>
+    {% endif %}{% if superuser.userdirection.choice_filling %}<li class="nav-item">
+        <a href="{% url 'students:add_mentor' %}" class="nav-link">Add Professors</a></li>
+    {% endif %}{% endif %}
+{% if user.is_authenticated %}
+<li class="nav-item dropdown" style="float: right">
+    <a href="javascript:void(0)" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown" style="float: right">User Options</a>
+    <div class="dropdown-content">
+    <a href="{% url 'students:password_change' %}" class="dropdown-item">Change Password</a>
+      <a href="{% url 'students:logout' %}" style="float: right" class="dropdown-item">Logout{% if user.student %}
+    {{ user.student.Name }}
+    {% else %}
+        {{ user.department.dep_name }} Department
+    {% endif %}</a>
+    </div>
+  </li>
+{% endif %}
+
+{% block search %}
+{% endblock %}
+</ul>
+</nav>
+<div class="container" style="margin-top:50px">
+<div class="row">
+{% block lcol %}
+<div class="col-sm-4 border border-dark bg-light rounded">
+    <h2 class="subhead">Notifications</h2>
+{% if Notification_list %}
+    <ul>
+    {% for notification in Notification_list %}
+        <div class="notificationdetail container1 border-dark">
+            <p>{{notification.heading }}{% if notification.pub_date > new %}<span class="badge badge-pill new badge-danger">new</span>{% endif %}</p>
+                <span class="time-right bg-light" style="color: black">{{ notification.pub_date }}</span>
+        <p class="detail border-dark bg-light">{{ notification.detail }}</p>
+        </div>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No notifications available</p>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block midcol %}
+        <div class="col-sm-8 border border-dark bg-light rounded">
+        <h2 class="subhead">About</h2>
+            <h3>Project Allotment Portal</h3>
+            <p class="border" style="color: #062c33">
+        Project Allotment Portal | MNNIT Allahabad automates the process of project allotment and group creation
+                for students in various programs of MNNIT Allahabad. Fore more information, see
+                <a href="{% url 'instructions' %}">instructions</a>.</p>
+            <h3>Motilal Nehru National Institute of Technology</h3>
+        <p>Motilal Nehru National Institute Of Technology, Allahabad was formerly Motilal Nehru Regional Engineering
+            College, Allahabad . It is an institute with total commitment to quality and excellence in academic pursuits
+            , is among one of the leading institutes in INDIA and was established in year 1961 as a joint enterprise
+            of Govt. of India and Govt. of U.P. in accordance with the scheme of establishment of REC. However with
+            effect from June 26th of 2002 the college became deemed university and is now known as Motilal
+            Nehru National Institute of technology. The foundation stone of the college was laid by the first
+            Prime Minister of India, Pt. Jawahar Lal Nehru on the 3rd of may, 1961 on a site spreading over 222 acres
+            on the banks of the river Ganga. The main building of college was inaugurated by another illustrious son
+            of India, Prime Minister Sri Lal Bahadur Shastri on 18th of April, 1965.</p>
+        </div>
+{% endblock %}
+{% block rcol %}
+{% endblock %}
+</div>
+
+</div>
+
+<div class="modal-footer">
+  <p>Website developed and created by: Team Noobies for WDS Problem Statement : Project Allotment Portal MNNIT </p>
+</div>
+
+     <!--<button type="button" class="btn btn-lg btn-info" data-toggle="modal" data-target="#myModal" style="margin-bottom: 5px">
+         <a href="{% url 'students:login' %}">Student's Login</a></button>
+
+
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1  class="modal-title">{% block loginTitle %}{% endblock %}</h1>
+        </div>
+        <div class="modal-body">
+{% block login %}
+            {% endblock %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>-->
+</body>
+</html>

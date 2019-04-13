@@ -1,0 +1,56 @@
+{% extends 'students/home.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css"  href="{% static 'django_messages/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/css/bootstrap.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/css/bootstrap.css' %}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="{% static 'students/bootstrap-4.3.1-dist/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+<h3 align="center">Project Allotment Portal</h3>
+<h5 align="center">Motilal Nehru National Institute Of Technology Allahabad</h5>
+</div>
+{% block  messages %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}
+{% block lcol %}
+    <div class="col-sm-8 border border-dark bg-white rounded">
+<h2 class="sticky-top subhead">Group Chats</h2>
+    <div class="row1 pre-scrollable bg-light">
+{% if Messages %}
+{% for msg in Messages %}
+    {% if user.student == msg.sender %}<div class="container1">
+    <h5 style="text-decoration: underline">You</h5>
+  <p class="text-right">{{ msg.content }}</p>
+  <span class="time-left">{{ msg.created_at }}</span>
+</div>{% else %}<div class="container1 darker1">
+  <h5 style="text-decoration: underline">{{ msg.sender }}</h5>
+  <p>{{ msg.content }}</p>
+  <span class="time-right">{{ msg.created_at }}</span>
+</div>{% endif %}
+{% endfor %}
+    {% else %}
+    No messages yet
+{% endif %}
+    </div>
+    <div class="row1 bg-light" style="color: black">
+        <p>Write a new Message</p>
+    <form method="post" novalidate class="form-check-">
+  {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit" class="btn btn-primary">Send</button>
+</form>
+    </div>
+    </div>
+
+    {% endblock %}
+{% block rcol %}
+
+{% endblock %}

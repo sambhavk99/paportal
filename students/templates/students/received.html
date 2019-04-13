@@ -1,0 +1,17 @@
+{% extends 'students/home.html' %}
+{% block rcol %}
+    <div class="col-sm-4 bg-white border border-dark">
+<h2 class="subhead">Received Requests</h2>
+{% if received %}
+{% for request in received %}
+<ul>
+    <li>{{ request.sender.Name }} {{ request.message }}<br>
+    <a href="{% url 'students:accepted' request.rid %}" class="btn btn-link bg-primary" style="color: black">Accept</a>
+        <a href="{% url 'students:reject' request.rid%}" class="btn btn-link bg-primary" style="color: black">Reject</a></li>
+</ul>
+{% endfor %}
+    {% else %}
+    No received requests.
+{% endif %}
+    </div>
+{% endblock %}

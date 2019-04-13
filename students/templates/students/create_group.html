@@ -1,0 +1,16 @@
+{% extends 'students/home.html' %}
+
+{% block rcol %}
+    <div class="col-sm-4 bg-light border border-dark rounded">
+    <h2>Create a Group</h2>
+    {% if user.is_authenticated %}
+<form method="post" novalidate>
+  {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit" class="btn btn-outline-primary" >Create Group</button>
+</form>
+    {% else %}
+    <P>You must Login first!</P>
+    {% endif %}
+    </div>
+{% endblock %}

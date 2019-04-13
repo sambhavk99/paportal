@@ -1,0 +1,15 @@
+{%  extends 'students/home.html' %}
+{% block rcol %}
+    <div class="col-sm-4">
+    {% if not user.student.group %}
+    <p>You need to create a group to send request</p>
+    {% else %}
+<h2>Request</h2>
+<form method="post" novalidate>
+  {% csrf_token %}
+    {{ form.as_p }}
+  <button type="submit" >Send</button>
+</form>
+    {% endif %}
+    </div>
+{% endblock %}

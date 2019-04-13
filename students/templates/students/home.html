@@ -1,0 +1,104 @@
+{% extends 'students/base.html' %}
+{% block msg %}
+    <div class="bg-light">
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    </div>
+{% endblock %}
+{% block search %}
+    {% if user.student.leader and not superuser.userdirection.result_declared and not user.student.choices_filled and count < max %}
+<form class="form-inline my-2 my-lg-0">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search Student by name" name="search_box" id="search_box" aria-label="Search">
+      <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+    </form>
+    {% endif %}
+{% endblock %}
+{% block lcol %}
+    <div class="col-sm-4 bg-light border border-dark rounded" style="color: black">
+{% if not user.is_authenticated %}
+  <p>You are not logged in</p>
+  <a href="{% url 'students:login' %}">login</a>
+    {% else %}
+    <h2 class="subhead">Student's Profile</h2>
+        <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Name</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.Name }}</div></div>
+    <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Reg. No.</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.reg_no }}</div></div>
+        <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Branch</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.Branch }}</div></div>
+
+        <div><div class="tab-field btn btn-light border border-left border-dark bg-info">CPI</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.CPI }}</div></div>
+
+            <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Date of Birth</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.DOB }}</div></div>
+
+            <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Category</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.Category }}</div></div>
+
+            <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Semester</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.Semester }}</div></div>
+
+    {% if user.student.leader %}
+            <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Leader</div><div class="tab-deet btn btn-light border border-left border-dark">Yes</div></div>
+
+        {% else %}
+                <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Leader</div><div class="tab-deet btn btn-light border border-left border-dark">No</div></div>
+
+        {% endif %}
+    {% if user.student.group %}
+            <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Group</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.group }}</div></div>
+
+        {% endif %}
+    {% if user.student.mentor %}
+                <div><div class="tab-field btn btn-light border border-left border-dark bg-info">Mentor</div><div class="tab-deet btn btn-light border border-left border-dark">{{ user.student.mentor }}</div></div>
+
+        {% endif %}
+{% endif %}
+    </div>
+{% endblock %}
+{% block rcol %}
+{% if user.student.leader and not superuser.userdirection.result_declared and not user.student.choices_filled and count < max %}
+    <div class="col-sm-4 border border-dark rounded">
+    <h2 class="subhead">Available Students</h2>
+{% if All_Students %}
+<ul>
+    {% for student in All_Students %}
+    {% if not student.group and not student.leader and student.reg_no != user and student not in already_sent %}
+        <li><div class="btn btn-light bg-white bar border border-dark" style="color: black">{{ student.Name }}</div>{% if superuser.userdirection.send_request and user.student.leader and user.student.group %}<a href="{% url 'students:send_request' student.id %}" class="btn btn-primary" style="margin: 5px">+</a>{% endif %}</li>
+    {% endif %}
+{% endfor %}
+</ul>
+    {% else %}
+    No Available Students!
+    {% endif %}
+    </div>
+    {% endif %}
+{% endblock %}
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% block midcol %}
+{% if user.student.group %}
+    <div class="col-sm-4 border border-dark rounded bg-white">
+    <h2 class="subhead">Group Members:</h2>
+{% if user.student.group and members %}
+{% for mem in members %}
+<li class="btn btn-block bg-white bar border border-dark" style="color: black">{{ mem.student }}</li>
+{% endfor %}
+{% else %}
+Group not created yet!!
+{% endif %}
+    </div>
+    {% elif user.student.leader %}
+    <div class="col-sm-4 border border-dark rounded bg-light">
+    <h2 class="subhead">Group Leader</h2>
+    You are a group leader. Create a group to send requests to students to join your group!!
+    </div>
+    {% endif %}
+{% endblock %}
+
+

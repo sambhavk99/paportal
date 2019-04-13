@@ -1,0 +1,52 @@
+{% extends 'students/base.html' %}
+{% block messages %}
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}
+
+{% block midcol %}
+    {% if superuser.userdirection.student_filling %}
+    <div class="col-sm-4 border border-dark bg-light" style="overflow-y: auto">
+{% if Students_List %}
+    <h2 class="sticky-top subhead">Students's List</h2>
+    <ul>
+    {% for student in Students_List %}
+        <li><div class="btn btn-light bg-white bar border border-dark" style="color: black">{{ student.Name }}</div>
+            <a href="{% url 'students:edit_student' student.id %}" class="btn btn-link bg-primary" style="color: white">Edit</a></li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    No information uploaded yet!
+{% endif %}
+
+    </div>
+{% endif %}
+{% endblock %}
+
+
+
+{% block lcol %}
+    {% if superuser.userdirection.mentor_filling %}
+    <div class="col-sm-4 border border-dark bg-light" style="overflow-y: auto ">
+
+{% if Professors_List %}
+    <h2 class="sticky-top subhead">Mentor's List</h2>
+    <ul>
+    {% for professor in Professors_List %}
+        <li><div style="color: black"><a href="{% url 'students:faculty_detail' professor.pid %}" class="btn btn-link bg-white bar border border-dark" style="color: black"> {{ professor.name }}</a>
+            <a href="{% url 'students:edit_mentor' professor.pid %}" class="btn btn-link bg-primary" style="color: white">Edit</a></div></li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    No information uploaded yet!
+{% endif %}
+    </div>
+    {% endif %}
+{% endblock %}
+
+

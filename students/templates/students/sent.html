@@ -1,0 +1,29 @@
+{% extends 'students/home.html' %}
+{% block msg %}
+    <div class="a bg-light">
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+    </div>
+{% endblock %}
+{% block rcol %}
+    <div class="col-sm-4 border border-dark bg-white rounded">
+<h2 class="subhead">Sent Requests</h2>
+{% if sent %}
+
+{% for request in sent %}
+<ul>
+    <li><div class="btn btn-light bar border border-dark">{{ request.receiver.Name }}</div>
+    <a href="{% url 'students:cancel' request.rid%}" class="btn btn-outline-primary" style="margin-bottom: 5px">Cancel</a>
+    </li>
+</ul>
+{% endfor %}
+    {% else %}
+    No pending sent requests.
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'students/home.html' %}
+{% block rcol %}
+    <div class="rcol">
+<h2>Inbox</h2>
+{% if inbox %}
+{% for message in inbox %}
+<ul>
+    <li><a href="{% url 'django_messages:detail' message.mid %}">{{ message.subject }}</a></li>
+
+</ul>
+{% endfor %}
+    {% else %}
+    No messages in inbox.
+{% endif %}
+<h2>Sent</h2>
+{% if sent %}
+{% for message in sent %}
+<ul>
+    <li><a href="{% url 'django_messages:detail' message.mid %}">{{ message.subject }}</a></li>
+</ul>
+{% endfor %}
+    {% else %}
+    No messages Sent!
+{% endif %}
+<div style="float: right">
+</div>
+    </div>
+{% endblock %}
