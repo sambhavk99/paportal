@@ -14,7 +14,7 @@ class Message(models.Model):
     sender = models.ForeignKey(Student, related_name="sender", null=True, on_delete=models.SET_NULL)
     receiver = models.ForeignKey(Group, related_name="receiver", on_delete=models.CASCADE, verbose_name="Write message")
     subject = models.CharField(verbose_name="Subject", max_length=50, default='No Subject')
-    content = models.TextField(verbose_name="Message")
+    content = models.CharField(verbose_name="Message", max_length=1500)
     created_at = models.DateTimeField(verbose_name="Time Created", default=timezone.now)
     seen = models.BooleanField(default=False, verbose_name="Message Seen")
 

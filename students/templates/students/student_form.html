@@ -1,8 +1,8 @@
-{% extends 'students/base.html' %}
+{% extends 'students/dep_home.html' %}
 {% block rcol %}
 
-<div class="col-sm-4">
-<h2>Student's Information</h2>
+<div class="col-sm-4 bg-light border border-dark rounded">
+<h2 class="subhead">Student's Information</h2>
   <form method="post">
     {% csrf_token %}
       <table border="1">

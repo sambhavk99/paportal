@@ -1,8 +1,22 @@
 body{
-    background-image: url("images/animal-avian-bird-875858.jpg");
+    background-image: url("images/light-blue-background-wallpaper-1.jpg");
 }
 
-
+.img{
+    max-height: 50px;
+    max-width: 40px;
+}
+.subhead{
+    background-color: #b8daff;
+    border-bottom: black double;
+    border-left: black double;
+    color: #0b2e13;
+    display: block;
+    text-decoration: underline;
+    font-style: italic;
+    height: 50px;
+    text-align: center;
+}
 .header {
         #background-image: url("images/mnnit.gif");
         height: 200px;
@@ -181,4 +195,50 @@ li.dropdown {
   #background: #ddd;
   margin-top: 20px;
         width: 100%;
+}
+.modal-backdrop {
+  z-index: -1;
+}
+
+.new {
+  background-color: red;
+  -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+  -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+  animation-name: example;
+  animation-duration: 20s;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
+
+/* Standard syntax */
+@keyframes example {
+  0%   {background-color: red;}
+  25%  {background-color: yellow;}
+  50%  {background-color: blue;}
+  100% {background-color: green;}
+}
+
+.bar{
+    width: 200px;
+    border: black solid;
+    margin-bottom: 5px;
+}
+
+.tab-field{
+    width: 100px;
+    background: #b8daff;
+    margin: 5px;
+    border-left: black solid;
+}
+
+.tab-deet{
+    width: 220px;
+    background-color: #c82333;
+    margin: 5px;
 }

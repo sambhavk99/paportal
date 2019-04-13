@@ -1,0 +1,47 @@
+{% extends 'students/base.html'%}
+{% block lcol %}
+<div class="col-sm-12 bg-light border rounded border-dark">
+<h2 class="subhead">Instructions: </h2>
+    <li ><button data-toggle="collapse" class="btn btn-info" data-target="#Students" style="margin-bottom: 5px">For Students</button></li>
+    <div id="Students" class="collapse">
+<ul style="list-style-type: square">
+    <li>Students will be notified for each and every process of Project Allotment right from the start to the very end!</li>
+    <li>As and when notified, Students will be able to login and see if they are the group leader or not!</li>
+    <li>If they are the group leader, as and when notified:
+    <ul>
+        <li>they will be able to create a group by name of their own choice</li>
+        <li>they will be able to see a list of all the available students and can send request to add them into their group. However, a request once sent can be canceled before it is accepted by the recipient.</li>
+        <li>After creating their group, they will be responsible for filling the preferences of Mentors (Mentor details can be accessed by clicking on the Mentor's name). However, they can consult their group members regarding the same, through the Group chat option provided in the portal.</li>
+        <li>they are also supposed to freeze their choices before the aforementioned due date, failing to do so, the last filled choices will automatically be frozen.</li>
+    </ul>
+    </li>
+    <li>Students, other than the group leaders:
+    <ul>
+        <li>will be able to receive requests from Group leaders and will be notified for the same as they log in. On accepting a Group leader's request, they will become a member of that group and the rest of the requests will be deleted. However, they can reject the requests if they want to. Students are advised to be very careful in accepting a particular request, as, once accepted, it cannot be undone!</li>
+        <li>will be able to access the list of mentors available for preference filling, they can see the Mentor's details by clicking on their name</li>
+        <li>will be able to chat with their group members and advise them on the preference filling of Mentors.</li>
+    </ul>
+    </li>
+    <li>As and when notified, Students will be able to see the result of mentor allotment by logging into their account under the profiles column!</li>
+    <li>Students can also change their password once they are logged by navigating to the User Options tab!</li>
+</ul>
+    </div>
+    <li><button data-toggle="collapse" class="btn btn-info" data-target="#dept">For Departments</button></li>
+    <div class="collapse" id="dept">
+<ul style="list-style-type: square;">
+    <li>Departments will be notified for providing information of the Mentors and Students for project allotment, they are required to check for notifications on this website from time to time!</li>
+    <li>As and when notified:
+    <ul>
+        <li>Departments will be able to login and add the information about their Students, special care should be taken to fill the registration number of students as once added, it cannot be changed!</li>
+        <li>Departments will be able to login and add the information about their Mentors.</li>
+    </ul>
+    </li>
+    <li>Departments shall take care that the total number of groups to be allotted to all the mentors matches the (total number of students taking part in project allotment in the department)/(students in each group). if they don't want to fix the number of students in each group, they shall inform the site admin beforehand.</li>
+    <li>Departments can also edit the information filled by them till the last date of information filling!</li>
+    <li>Departments can change their password once they are logged in by navigating to the user options tab!</li>
+</ul>
+</div>
+</div>
+    {% endblock %}
+{% block midcol %}
+{% endblock %}

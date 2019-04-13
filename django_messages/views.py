@@ -1,14 +1,10 @@
-from django.shortcuts import render
-
 # Create your views here.
 from django.contrib.auth.decorators import login_required
 from django.views import generic
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect
 from .forms import MessageForm
 from .models import Message
 from notifications.models import Notification
-from students.models import Student
-from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
 
@@ -36,10 +32,12 @@ from django.contrib import messages
 '''
 
 
+'''GROUP CHAT VIEW'''
+
 @login_required(login_url='/accounts/login')
 def create_message(request):
     try:
-        msgs = Message.objects.all().filter(receiver=request.user.groups.all()[0]).order_by('created_at')
+        msgs = Message.objects.all().filter(receiver=request.user.groups.all()[0]).order_by('-created_at')
     except IndexError:
         msgs = None
         pass
@@ -54,9 +52,18 @@ def create_message(request):
             messages.success(request, "Message sent successfully")
             return redirect('django_messages:chats')
 
-    ctx = {'form': form, 'Messages': msgs}
+    try:
+        members = list(request.user.student.group.user_set.all())
+    except AttributeError:
+        members = None
+
+    ctx = {'form': form, 'Messages': msgs, 'Notification_list': Notification.objects.order_by('-pub_date'),
+           'members': members}
 
     return render(request, 'django_messages/chat.html', ctx)
+
+
+'''USER TO USER MESSAGING INTERFACE, NOT IN USE'''
 
 
 def home(request):

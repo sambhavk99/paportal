@@ -1,8 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.db import models
+from  django.db.models import Sum
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.contrib.admin.widgets import AdminDateWidget
 import uuid
 from .signals import *
 from notifications.models import Notification
@@ -22,9 +24,11 @@ class Professor(models.Model):
     pid = models.IntegerField(verbose_name="Professor ID", default=0, primary_key=True)
     name = models.CharField(max_length=25, verbose_name="Name")
     desg = models.CharField(verbose_name="Designation", max_length=25)
+    qual = models.CharField(verbose_name="Qualifications", max_length=50, blank=True)
     dept = models.CharField(verbose_name="Department", max_length=50, choices=DEP_CHOICES)
-    aoi = models.CharField(verbose_name="Areas Of Interest", max_length=30)
-    group = models.IntegerField(verbose_name="Number of Groups", default=0)
+    aoi = models.CharField(verbose_name="Areas Of Interest", max_length=50)
+    group = models.IntegerField(verbose_name="Number of Groups to be alloted", default=0)
+    group_allotted = models.IntegerField(verbose_name="Groups alloted", default=0)
 
     def __str__(self):
         return self.name
@@ -53,6 +57,7 @@ class Student(models.Model):
     group = models.ForeignKey(Group, verbose_name="Group", on_delete=models.CASCADE, null=True, blank=True)
     leader = models.BooleanField(verbose_name="Leader", default=False)
     preference = []
+    mentor = models.ForeignKey(Professor, verbose_name="Mentor", on_delete=models.CASCADE, null=True, blank=True)
     choices_filled = models.BooleanField(verbose_name="Choices Filled", default=False)
 
     def add_preference(self, x):
@@ -71,10 +76,6 @@ class Student(models.Model):
 
     def __str__(self):
         return self.Name
-
-
-class CreateGroup(models.Model):
-    grp_name = models.CharField(verbose_name="Group Name", max_length=25, blank=True, null=True)
 
 
 class Choice(models.Model):
@@ -103,6 +104,9 @@ class GroupRequest(models.Model):
         setattr(f, 'group', self.sender.group)
         f.save()
         self.delete()
+        rec = GroupRequest.objects.filter(receiver=self.receiver)
+        for r in rec:
+            r.delete()
         request_accepted.send(
             sender=self,
             from_user=self.sender,
@@ -119,7 +123,7 @@ class GroupRequest(models.Model):
 
 
 class UserDirection(models.Model):
-    user = models.OneToOneField(User, verbose_name="Superuser", on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(User, verbose_name="Superuser", on_delete=models.CASCADE, blank=True, null=True, limit_choices_to={'is_superuser':True})
     dep_login = models.BooleanField(default=False, verbose_name="Departmental Login Allowed")
     mentor_filling = models.BooleanField(default=False, verbose_name="Mentor Information Uploading Started")
     student_login = models.BooleanField(default=False, verbose_name="Student Login Allowed")
@@ -130,6 +134,39 @@ class UserDirection(models.Model):
     choice_filling = models.BooleanField(default=False, verbose_name="Choice Filling started")
     result_declared = models.BooleanField(default=False, verbose_name="Result Declared")
 
+    def group_leader(self):
+        DEP_CHOICES = ['Electronics and Communication Engineering',
+                       'Mechanical Engineering', 'Computer Science and Engineering',
+                       'Electrical Engineering',
+                       'Production and Industrial Engineering', 'Chemical Engineering', 'Civil Engineering',
+                       'Information Technology', 'Biotechnology']
+        for dep in DEP_CHOICES:
+            groups = (Professor.objects.filter(dept=dep).aggregate(num=Sum('group')))
+            sum = groups['num']
+            if sum is None:
+                sum=0
+            print(sum)
+            student_list = list(Student.objects.all().order_by('-CPI'))
+            print(student_list)
+
+            for i in range(sum):
+                setattr(student_list[i], 'leader', True)
+                student_list[i].save()
+
+    def allot_mentor(self):
+        g_leader = list(Student.objects.filter(leader=True).order_by('-CPI'))
+        for i in range(len(g_leader)):
+            choice = list(Choice.objects.filter(student=g_leader[i]).order_by('priority'))
+            for j in range(len(choice)):
+                if choice[j].professor.group_allotted < choice[j].professor.group:
+                    choice[j].professor.group_allotted += 1
+                    choice[j].professor.save()
+                    members = list(g_leader[i].group.user_set.all())
+                    for m in members:
+                        setattr(m.student, 'mentor', choice[j].professor)
+                        m.student.save()
+                    break
+
     def create(self):
         if self.student_filling is True:
             Notification.objects.get_or_create(heading="Student details updation has started",
@@ -138,6 +175,7 @@ class UserDirection(models.Model):
             Notification.objects.get_or_create(heading="Mentor details updation has started",
                                                detail="Departments can now login to update and fill the details of mentors.")
         if self.Group_leaders is True:
+            self.group_leader()
             Notification.objects.get_or_create(heading="Group leaders allotted",
                                                detail="Students can now login to see if they are the group leader.")
         if self.Group_creation is True:
@@ -150,6 +188,7 @@ class UserDirection(models.Model):
             Notification.objects.get_or_create(heading="Choice filling has started",
                                                detail="Group Leaders can now fill their preferences for mentors for their projects.")
         if self.result_declared is True:
+            self.allot_mentor()
             Notification.objects.get_or_create(heading="Results declared",
                                                detail="Students can now login to see who has been allotted as mentor for their group.")
 
@@ -169,6 +208,7 @@ class Department(models.Model):
                    ('Biotechnology', 'Biotechnology'))
     user = models.OneToOneField(User, verbose_name="Department username", on_delete=models.CASCADE)
     dep_name = models.CharField(verbose_name="Department Name", max_length=50, choices=DEP_CHOICES)
+    num = models.IntegerField(verbose_name="Strength in on group", blank=True, null=True)
 
     def __str__(self):
         return self.dep_name

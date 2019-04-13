@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .models import *
 from .models import GroupRequest
 from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 
 
 class SignUpForm(UserCreationForm):
@@ -22,10 +23,9 @@ class CustomAuthenticationForm(AuthenticationForm):
     )
 
 
-class CreateGroupForm(forms.ModelForm):
-    class Meta:
-        model = CreateGroup
-        fields = 'grp_name',
+class CreateGroupForm(forms.Form):
+    name = forms.CharField(label='Group Name', max_length=40)
+
 
 
 class RequestForm(forms.ModelForm):
@@ -37,16 +37,18 @@ class RequestForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     registration_no = forms.CharField(required=True)
     email = forms.EmailField(required=True, help_text="Required")
+    Date_of_Birth = forms.DateField(widget=forms.SelectDateWidget(years=range(1990,2019)))
 
     class Meta:
         model = Student
-        fields = ('registration_no', 'Name', 'FName', 'DOB', 'CPI', 'Category', 'Semester')
+        model.DOB = forms.DateField(widget= forms.SelectDateWidget(years=range(1990, 2019)))
+        fields = ('registration_no', 'Name', 'FName', 'Date_of_Birth', 'CPI', 'Category', 'Semester')
 
 
 class FacultyForm(forms.ModelForm):
     class Meta:
         model = Professor
-        fields = ('pid', 'name', 'desg', 'aoi', 'group')
+        fields = ('pid', 'name', 'desg', 'qual', 'aoi', 'group')
 
 
 class DepartmentLoginForm(AuthenticationForm):
