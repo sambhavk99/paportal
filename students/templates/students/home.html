@@ -63,7 +63,7 @@
 <ul>
     {% for student in All_Students %}
     {% if not student.group and not student.leader and student.reg_no != user and student not in already_sent %}
-        <li><div class="btn btn-light bg-white bar border border-dark" style="color: black">{{ student.Name }}</div>{% if superuser.userdirection.send_request and user.student.leader and user.student.group %}<a href="{% url 'students:send_request' student.id %}" class="btn btn-primary" style="margin: 5px">+</a>{% endif %}</li>
+        <li><div class="btn btn-light bg-white bar border border-dark" style="color: black" data-toggle="tooltip" title="{{ student.reg_no }}">{{ student.Name }}</div>{% if superuser.userdirection.send_request and user.student.leader and user.student.group %}<a href="{% url 'students:send_request' student.id %}" class="btn btn-primary" style="margin: 5px" data-toggle="tooltip" title="Send Request">+</a>{% endif %}</li>
     {% endif %}
 {% endfor %}
 </ul>
