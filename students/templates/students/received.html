@@ -6,8 +6,8 @@
 {% for request in received %}
 <ul>
     <li>{{ request.sender.Name }} {{ request.message }}<br>
-    <a href="{% url 'students:accepted' request.rid %}" class="btn btn-link bg-primary" style="color: black">Accept</a>
-        <a href="{% url 'students:reject' request.rid%}" class="btn btn-link bg-primary" style="color: black">Reject</a></li>
+    <a href="{% url 'students:accepted' request.rid %}" class="btn btn-primary" style="color: black">Accept</a>
+        <a href="{% url 'students:reject' request.rid%}" class="btn btn-outline-primary" style="color: black">Reject</a></li>
 </ul>
 {% endfor %}
     {% else %}

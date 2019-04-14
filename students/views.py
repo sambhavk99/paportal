@@ -568,8 +568,9 @@ def student_add_view(request):
             username = form.cleaned_data.get('registration_no')
             email = form.cleaned_data.get('email')
             dob = form.cleaned_data.get('Date_of_Birth')
+            password = form.cleaned_data.get('password')
             try:
-                users = User.objects.create_user(username=username, email=email, password='qwertyuiop')
+                users = User.objects.create_user(username=username, email=email, password=password)
             except IntegrityError:
                 return HttpResponse("Registration Number Already Exists!!!")
             stud.reg_no = users
@@ -577,6 +578,7 @@ def student_add_view(request):
             stud.Branch = dep.department.dep_name
             stud.DOB = dob
             stud = stud.save()
+            messages.success(request, "Added Student Successfully")
             return redirect('students:add_student')
     else:
         form = StudentForm()

@@ -27,7 +27,6 @@ class CreateGroupForm(forms.Form):
     name = forms.CharField(label='Group Name', max_length=40)
 
 
-
 class RequestForm(forms.ModelForm):
     class Meta:
         model = GroupRequest
@@ -37,12 +36,12 @@ class RequestForm(forms.ModelForm):
 class StudentForm(forms.ModelForm):
     registration_no = forms.CharField(required=True)
     email = forms.EmailField(required=True, help_text="Required")
-    Date_of_Birth = forms.DateField(widget=forms.SelectDateWidget(years=range(1990,2019)))
+    Date_of_Birth = forms.DateField(widget=forms.SelectDateWidget(years=range(1990, 2019)))
+    password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
         model = Student
-        model.DOB = forms.DateField(widget= forms.SelectDateWidget(years=range(1990, 2019)))
-        fields = ('registration_no', 'Name', 'FName', 'Date_of_Birth', 'CPI', 'Category', 'Semester')
+        fields = ('registration_no', 'Name', 'FName', 'Date_of_Birth', 'CPI', 'Category', 'Semester', 'password')
 
 
 class FacultyForm(forms.ModelForm):

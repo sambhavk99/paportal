@@ -124,7 +124,7 @@
 {% endif %}
 {% if user.department %}
    {% if superuser.userdirection.student_filling %}<li class="nav-item"><a href="{% url 'students:add_student' %}" class="nav-link">Add Students</a></li>
-    {% endif %}{% if superuser.userdirection.choice_filling %}<li class="nav-item">
+    {% endif %}{% if superuser.userdirection.mentor_filling %}<li class="nav-item">
         <a href="{% url 'students:add_mentor' %}" class="nav-link">Add Professors</a></li>
     {% endif %}{% endif %}
 {% if user.is_authenticated %}
