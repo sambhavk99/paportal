@@ -88,6 +88,9 @@ def index(request):
     except Department.DoesNotExist:
         num = 0
 
+    if num is None:
+        num = 10000
+
     msg = Message.objects.filter(receiver=request.user.student.group, seen=False).count()
     rec = list(GroupRequest.objects.filter(receiver=request.user.student))
     for r in rec:
