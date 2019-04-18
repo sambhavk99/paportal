@@ -109,7 +109,7 @@
     <a href="{% url 'django_messages:chats' %}" class="nav-link">Group Chat</a>
   </li>
         {% endif %}
-    {% if superuser.userdirection.send_request and not user.student.choices_filled and not user.student.group %}
+    {% if superuser.userdirection.send_request and not user.student.choices_filled %}
 <li class="nav-item dropdown">
     <a href="javascript:void(0)" class="nav-link dropdown-toggle" id="navbardrop" data-toggle="dropdown">Requests {% if request_count %}<div class="span badge badge-danger">{{ request_count }}</div>{% endif %}</a>
     <div class="dropdown-content">
