@@ -134,7 +134,7 @@ def index(request):
     return render(request, 'students/home.html', context=context)
 
 
-'''SIGNUP VIEW, NOT IN WORK'''
+'''SIGNUP VIEW, NOT IN WORK TEMPORARILY'''
 
 
 def signup(request):
